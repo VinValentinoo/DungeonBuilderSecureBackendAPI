@@ -15,9 +15,9 @@ var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionS
 var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
 //Test if database is connected
-//using var conn = new MySqlConnector.MySqlConnection(sqlConnectionString);
-//conn.Open();
-//Console.WriteLine("✅ Database connected!");
+using var conn = new SqlConnection(sqlConnectionString);
+conn.Open();
+Console.WriteLine("✅ Database connected!");
 
 // Register OpenAPI/Swagger for API documentation and testing.
 //builder.Services.AddEndpointsApiExplorer();
@@ -54,10 +54,13 @@ builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticati
 
 // Register application repositories.
 // By default, use an in-memory repository for example objects.
-builder.Services.AddTransient<IExampleObjectRepository, MemoryExampleObjectRepository>();
+//builder.Services.AddTransient<IExampleObjectRepository, MemoryExampleObjectRepository>();
 
 // To use a SQL-backed repository instead, uncomment the following line:
 //builder.Services.AddTransient<IExampleObjectRepository, SqlExampleObjectRepository>(o => new SqlExampleObjectRepository(sqlConnectionString!));
+builder.Services.AddSingleton<UserRepository>(sp => new UserRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+
+builder.Services.AddSingleton<PasswordService>();
 
 var app = builder.Build();
 
