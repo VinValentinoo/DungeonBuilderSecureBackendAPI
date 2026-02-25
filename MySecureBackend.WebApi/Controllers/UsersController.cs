@@ -57,7 +57,7 @@ namespace MySecureBackend.WebApi.Controllers
             if (!validPassword)
                 return Unauthorized("Invalid username or password.");
 
-            return Ok("Login successful.");
+            return Ok(user);
         }
     }
 }
