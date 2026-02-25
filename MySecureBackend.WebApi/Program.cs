@@ -59,6 +59,7 @@ builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticati
 // To use a SQL-backed repository instead, uncomment the following line:
 //builder.Services.AddTransient<IExampleObjectRepository, SqlExampleObjectRepository>(o => new SqlExampleObjectRepository(sqlConnectionString!));
 builder.Services.AddSingleton<UserRepository>(sp => new UserRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+builder.Services.AddSingleton<EnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
 
 builder.Services.AddSingleton<PasswordService>();
 
