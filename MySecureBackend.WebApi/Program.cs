@@ -60,6 +60,7 @@ builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticati
 //builder.Services.AddTransient<IExampleObjectRepository, SqlExampleObjectRepository>(o => new SqlExampleObjectRepository(sqlConnectionString!));
 builder.Services.AddSingleton<UserRepository>(sp => new UserRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
 builder.Services.AddSingleton<EnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+builder.Services.AddSingleton<Object2DRepository>(sp => new Object2DRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
 
 builder.Services.AddSingleton<PasswordService>();
 
