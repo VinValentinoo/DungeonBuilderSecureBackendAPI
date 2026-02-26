@@ -41,7 +41,7 @@ namespace MySecureBackend.WebApi.Controllers
 
             await _userRepository.Create(user);
 
-            return Ok("User registered successfully.");
+            return Ok(user);
         }
 
         [HttpPost("login")]
