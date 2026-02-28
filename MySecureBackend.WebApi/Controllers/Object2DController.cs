@@ -22,7 +22,7 @@ namespace MySecureBackend.WebApi.Controllers
         public async Task<IActionResult> GetByEnvId(int envId)
         {
             var objects = await _repository.GetByEnvId(envId);
-            return Ok(objects);
+            return Ok(new { objects = objects });
         }
 
         // POST: api/objects
@@ -53,6 +53,14 @@ namespace MySecureBackend.WebApi.Controllers
         {
             await _repository.Delete(id);
             return Ok("Object deleted.");
+        }
+
+        // DELTE: api/objects/environment/1
+        [HttpDelete("environment/{envId}")]
+        public async Task<IActionResult> DeleteByEnv(int envId)
+        {
+            await _repository.DeleteByEnv(envId);
+            return Ok("Objects deleted.");
         }
     }
 }
