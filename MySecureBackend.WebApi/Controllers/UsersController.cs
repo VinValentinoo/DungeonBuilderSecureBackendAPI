@@ -4,6 +4,7 @@ using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Models.DTOs;
 using MySecureBackend.WebApi.Repositories;
 using MySecureBackend.WebApi.Services;
+using System.Text.RegularExpressions;
 
 namespace MySecureBackend.WebApi.Controllers
 {
@@ -26,8 +27,21 @@ namespace MySecureBackend.WebApi.Controllers
             if (string.IsNullOrWhiteSpace(request.UserName) || string.IsNullOrWhiteSpace(request.Password))
                 return BadRequest("Username and password required.");
 
-            if (request.Password.Length < 8)
-                return BadRequest("Password must be at least 8 characters.");
+            if (request.Password.Length < 10)
+                return BadRequest("Password must be at least 10 characters.");
+
+            // Regex checks
+            if (!Regex.IsMatch(request.Password, "[a-z]"))
+                return BadRequest("Password must contain at least one lowercase letter.");
+
+            if (!Regex.IsMatch(request.Password, "[A-Z]"))
+                return BadRequest("Password must contain at least one uppercase letter.");
+
+            if (!Regex.IsMatch(request.Password, "[0-9]"))
+                return BadRequest("Password must contain at least one number.");
+
+            if (!Regex.IsMatch(request.Password, "[^a-zA-Z0-9]"))
+                return BadRequest("Password must contain at least one special character.");
 
             var existingUser = await _userRepository.GetByUserName(request.UserName);
             if (existingUser != null)
