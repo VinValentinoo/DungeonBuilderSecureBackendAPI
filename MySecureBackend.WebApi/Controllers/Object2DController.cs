@@ -2,6 +2,7 @@
 using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Models.DTOs;
 using MySecureBackend.WebApi.Repositories;
+using MySecureBackend.WebApi.Repositories.Interfaces;
 
 namespace MySecureBackend.WebApi.Controllers
 {
@@ -9,12 +10,10 @@ namespace MySecureBackend.WebApi.Controllers
     [Route("api/objects")]
     public class Object2DController : ControllerBase
     {
-        private readonly Object2DRepository _repository;
-        private readonly EnvironmentRepository _environmentRepository;
+        private readonly IObject2DRepository _repository;
+        private readonly IEnvironmentRepository _environmentRepository;
 
-        public Object2DController(
-            Object2DRepository repository,
-            EnvironmentRepository environmentRepository)
+        public Object2DController(IObject2DRepository repository, IEnvironmentRepository environmentRepository)
         {
             _repository = repository;
             _environmentRepository = environmentRepository;

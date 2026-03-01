@@ -2,6 +2,7 @@
 using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Models.DTOs;
 using MySecureBackend.WebApi.Repositories;
+using MySecureBackend.WebApi.Repositories.Interfaces;
 
 namespace MySecureBackend.WebApi.Controllers
 {
@@ -9,9 +10,9 @@ namespace MySecureBackend.WebApi.Controllers
     [Route("api/environments")]
     public class EnvironmentsController : ControllerBase
     {
-        private readonly EnvironmentRepository _environmentRepository;
+        private readonly IEnvironmentRepository _environmentRepository;
 
-        public EnvironmentsController(EnvironmentRepository environmentRepository)
+        public EnvironmentsController(IEnvironmentRepository environmentRepository)
         {
             _environmentRepository = environmentRepository;
         }

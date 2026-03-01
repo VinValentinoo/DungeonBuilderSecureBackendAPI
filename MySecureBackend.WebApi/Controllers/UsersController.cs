@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Models.DTOs;
 using MySecureBackend.WebApi.Repositories;
+using MySecureBackend.WebApi.Repositories.Interfaces;
 using MySecureBackend.WebApi.Services;
 using System.Text.RegularExpressions;
 
@@ -12,10 +13,10 @@ namespace MySecureBackend.WebApi.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private readonly UserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly PasswordService _passwordService;
 
-        public UsersController(UserRepository userRepository, PasswordService passwordService)
+        public UsersController(IUserRepository userRepository, PasswordService passwordService)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;

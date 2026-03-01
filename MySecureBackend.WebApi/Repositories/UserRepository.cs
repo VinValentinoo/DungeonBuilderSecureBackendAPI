@@ -1,10 +1,11 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
 using MySecureBackend.WebApi.Models;
+using MySecureBackend.WebApi.Repositories.Interfaces;
 
 namespace MySecureBackend.WebApi.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly string _connectionString;
 

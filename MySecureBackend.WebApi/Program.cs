@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.OpenApi;
 using MySecureBackend.WebApi.Repositories;
+using MySecureBackend.WebApi.Repositories.Interfaces;
 using MySecureBackend.WebApi.Services;
 using System.Reflection;
 
@@ -58,9 +59,9 @@ builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticati
 
 // To use a SQL-backed repository instead, uncomment the following line:
 //builder.Services.AddTransient<IExampleObjectRepository, SqlExampleObjectRepository>(o => new SqlExampleObjectRepository(sqlConnectionString!));
-builder.Services.AddSingleton<UserRepository>(sp => new UserRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
-builder.Services.AddSingleton<EnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
-builder.Services.AddSingleton<Object2DRepository>(sp => new Object2DRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+builder.Services.AddScoped<IUserRepository>(sp => new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IEnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddScoped<IObject2DRepository>(sp => new Object2DRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddSingleton<PasswordService>();
 
