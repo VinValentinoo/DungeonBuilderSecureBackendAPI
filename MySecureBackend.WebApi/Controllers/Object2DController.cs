@@ -3,7 +3,6 @@ using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Models.DTOs;
 using MySecureBackend.WebApi.Repositories;
 
-
 namespace MySecureBackend.WebApi.Controllers
 {
     [ApiController]
@@ -11,16 +10,27 @@ namespace MySecureBackend.WebApi.Controllers
     public class Object2DController : ControllerBase
     {
         private readonly Object2DRepository _repository;
-        
-        public Object2DController(Object2DRepository repository)
+        private readonly EnvironmentRepository _environmentRepository;
+
+        public Object2DController(
+            Object2DRepository repository,
+            EnvironmentRepository environmentRepository)
         {
             _repository = repository;
+            _environmentRepository = environmentRepository;
         }
 
-        // GET: api/objects/environment/1
+        // GET: api/objects/environment/1?userId=2
         [HttpGet("environment/{envId}")]
-        public async Task<IActionResult> GetByEnvId(int envId)
+        public async Task<IActionResult> GetByEnvId(int envId, [FromQuery] int userId)
         {
+            var env = await _environmentRepository.GetById(envId);
+            if (env == null)
+                return NotFound();
+
+            if (env.UserId != userId)
+                return Unauthorized("Not your environment.");
+
             var objects = await _repository.GetByEnvId(envId);
             return Ok(new { objects = objects });
         }
@@ -29,8 +39,9 @@ namespace MySecureBackend.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateObject2DRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.ObjectType))
-                return BadRequest("ObjectType is required.");
+            var env = await _environmentRepository.GetById(request.EnvironmentId);
+            if (env == null)
+                return NotFound("Environment not found.");
 
             var obj = new Object2D
             {
@@ -43,22 +54,36 @@ namespace MySecureBackend.WebApi.Controllers
             };
 
             await _repository.Create(obj);
-
             return Ok("Object created.");
         }
 
-        // DELETE: api/objects/1
+        // DELETE: api/objects/5?userId=2
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [FromQuery] int userId)
         {
+            var obj = await _repository.GetByEnvId(id);
+            if (obj == null)
+                return NotFound();
+
+            var env = await _environmentRepository.GetById(id);
+            if (env.UserId != userId)
+                return Unauthorized("Not your object.");
+
             await _repository.Delete(id);
             return Ok("Object deleted.");
         }
 
-        // DELTE: api/objects/environment/1
+        // DELETE: api/objects/environment/1?userId=2
         [HttpDelete("environment/{envId}")]
-        public async Task<IActionResult> DeleteByEnv(int envId)
+        public async Task<IActionResult> DeleteByEnv(int envId, [FromQuery] int userId)
         {
+            var env = await _environmentRepository.GetById(envId);
+            if (env == null)
+                return NotFound();
+
+            if (env.UserId != userId)
+                return Unauthorized("Not your environment.");
+
             await _repository.DeleteByEnv(envId);
             return Ok("Objects deleted.");
         }

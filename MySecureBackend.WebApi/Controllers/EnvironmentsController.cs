@@ -24,12 +24,17 @@ namespace MySecureBackend.WebApi.Controllers
             return Ok(environments);
         }
 
-        // GET: api/environments/5
+        // GET: api/environments/5?userId=1
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(int id, [FromQuery] int userId)
         {
             var environment = await _environmentRepository.GetById(id);
-            if (environment == null) return NotFound();
+            if (environment == null)
+                return NotFound();
+
+            if (environment.UserId != userId)
+                return Unauthorized("This environment does not belong to you.");
+
             return Ok(environment);
         }
 
@@ -68,10 +73,17 @@ namespace MySecureBackend.WebApi.Controllers
             return Ok("Environment created.");
         }
 
-        // DELETE: api/environments/5
+        // DELETE: api/environments/5?userId=1
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, [FromQuery] int userId)
         {
+            var env = await _environmentRepository.GetById(id);
+            if (env == null)
+                return NotFound();
+
+            if (env.UserId != userId)
+                return Unauthorized("This environment does not belong to you.");
+
             await _environmentRepository.Delete(id);
             return Ok("Environment deleted.");
         }
