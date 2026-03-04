@@ -59,9 +59,11 @@ builder.Services.AddTransient<IAuthenticationService, AspNetIdentityAuthenticati
 
 // To use a SQL-backed repository instead, uncomment the following line:
 //builder.Services.AddTransient<IExampleObjectRepository, SqlExampleObjectRepository>(o => new SqlExampleObjectRepository(sqlConnectionString!));
-builder.Services.AddScoped<IUserRepository>(sp => new UserRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IEnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IObject2DRepository>(sp => new Object2DRepository(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddSingleton<IUserRepository>(sp => new UserRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+builder.Services.AddSingleton<IEnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+builder.Services.AddSingleton<IObject2DRepository>(sp => new Object2DRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
+
 
 builder.Services.AddSingleton<PasswordService>();
 
@@ -105,3 +107,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+//commit to test webapi with azure
