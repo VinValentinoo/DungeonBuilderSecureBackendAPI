@@ -107,19 +107,19 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Configure CORS to allow requests from any origin, with any header and method.
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        policy =>
+//        {
+//            policy.AllowAnyOrigin()
+//                  .AllowAnyHeader()
+//                  .AllowAnyMethod();
+//        });
+//});
 
-app.UseCors("AllowAll");
+//app.UseCors("AllowAll");
 
 app.Run();
 
-//commit to test webapi with azure
+// Tester
