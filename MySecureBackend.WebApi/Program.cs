@@ -64,7 +64,6 @@ builder.Services.AddSingleton<IUserRepository>(sp => new UserRepository(builder.
 builder.Services.AddSingleton<IEnvironmentRepository>(sp => new EnvironmentRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
 builder.Services.AddSingleton<IObject2DRepository>(sp => new Object2DRepository(builder.Configuration.GetValue<string>("SqlConnectionString")));
 
-
 builder.Services.AddSingleton<PasswordService>();
 
 var app = builder.Build();
@@ -105,20 +104,6 @@ app.UseAuthorization();
 
 // Register all controller endpoints for the application.
 app.MapControllers();
-
-// Configure CORS to allow requests from any origin, with any header and method.
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll",
-//        policy =>
-//        {
-//            policy.AllowAnyOrigin()
-//                  .AllowAnyHeader()
-//                  .AllowAnyMethod();
-//        });
-//});
-
-//app.UseCors("AllowAll");
 
 app.Run();
 
