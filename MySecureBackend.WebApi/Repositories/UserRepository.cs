@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Repositories.Interfaces;
+using Npgsql;
 
 namespace MySecureBackend.WebApi.Repositories
 {
@@ -16,7 +17,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task<User?> GetByUserName(string userName)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
             return await conn.QueryFirstOrDefaultAsync<User>(
                 "SELECT * FROM [User] WHERE UserName = @UserName",
                 new { UserName = userName });
@@ -24,7 +26,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task Create(User user)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
 
             await conn.ExecuteAsync(
                 "INSERT INTO [User] (UserName, PasswordHash) VALUES (@UserName, @PasswordHash)",

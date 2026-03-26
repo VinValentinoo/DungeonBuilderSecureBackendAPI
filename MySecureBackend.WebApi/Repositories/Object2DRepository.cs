@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using MySecureBackend.WebApi.Models;
 using MySecureBackend.WebApi.Repositories.Interfaces;
+using Npgsql;
 
 namespace MySecureBackend.WebApi.Repositories
 {
@@ -16,7 +17,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task<IEnumerable<Object2D>> GetByEnvId(int envId)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
 
             return await conn.QueryAsync<Object2D>(
                 "SELECT * FROM Object2D WHERE EnvironmentId = @EnvironmentId",
@@ -26,7 +28,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task Create(Object2D obj)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
 
             await conn.ExecuteAsync(
                 @"INSERT INTO Object2D (EnvironmentId, ObjectType, PosX, PosY, Rotation, Scale) VALUES (@EnvironmentId, @ObjectType, @PosX, @PosY, @Rotation, @Scale)",
@@ -36,7 +39,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task Delete(int id)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
 
             await conn.ExecuteAsync(
                 "DELETE FROM Object2D WHERE Id = @Id",
@@ -46,7 +50,8 @@ namespace MySecureBackend.WebApi.Repositories
 
         public async Task DeleteByEnv(int envId)
         {
-            using var conn = new SqlConnection(_connectionString);
+            //using var conn = new SqlConnection(_connectionString);
+            using var conn = new NpgsqlConnection(_connectionString);
 
             await conn.ExecuteAsync(
                 "DELETE FROM Object2D WHERE EnvironmentId = @EnvironmentId",
