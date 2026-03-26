@@ -16,9 +16,9 @@ var sqlConnectionString = builder.Configuration.GetValue<string>("SqlConnectionS
 var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
 //Test if database is connected
-using var conn = new SqlConnection(sqlConnectionString);
-conn.Open();
-Console.WriteLine("✅ Database connected!");
+//using var conn = new SqlConnection(sqlConnectionString);
+//conn.Open();
+//Console.WriteLine("✅ Database connected!");
 
 // Register OpenAPI/Swagger for API documentation and testing.
 //builder.Services.AddEndpointsApiExplorer();
