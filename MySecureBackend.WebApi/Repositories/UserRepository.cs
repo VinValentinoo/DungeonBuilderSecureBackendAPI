@@ -15,24 +15,41 @@ namespace MySecureBackend.WebApi.Repositories
             _connectionString = connectionString;
         }
 
+        //public async Task<User?> GetByUserName(string userName)
+        //{
+        //    //using var conn = new SqlConnection(_connectionString);
+        //    using var conn = new NpgsqlConnection(_connectionString);
+        //    return await conn.QueryFirstOrDefaultAsync<User>(
+        //        "SELECT * FROM [User] WHERE UserName = @UserName",
+        //        new { UserName = userName });
+        //}
         public async Task<User?> GetByUserName(string userName)
         {
-            //using var conn = new SqlConnection(_connectionString);
             using var conn = new NpgsqlConnection(_connectionString);
+
             return await conn.QueryFirstOrDefaultAsync<User>(
-                "SELECT * FROM [User] WHERE UserName = @UserName",
+                "SELECT * FROM \"User\" WHERE \"UserName\" = @UserName",
                 new { UserName = userName });
         }
 
+        //public async Task Create(User user)
+        //{
+        //    //using var conn = new SqlConnection(_connectionString);
+        //    using var conn = new NpgsqlConnection(_connectionString);
+
+        //    await conn.ExecuteAsync(
+        //        "INSERT INTO [User] (UserName, PasswordHash) VALUES (@UserName, @PasswordHash)",
+        //        user
+        //        );
+        //}
         public async Task Create(User user)
         {
-            //using var conn = new SqlConnection(_connectionString);
             using var conn = new NpgsqlConnection(_connectionString);
 
             await conn.ExecuteAsync(
-                "INSERT INTO [User] (UserName, PasswordHash) VALUES (@UserName, @PasswordHash)",
+                "INSERT INTO \"User\" (\"UserName\", \"PasswordHash\") VALUES (@UserName, @PasswordHash)",
                 user
-                );
+            );
         }
     }
 }
