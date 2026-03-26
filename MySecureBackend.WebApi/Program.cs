@@ -4,6 +4,7 @@ using Microsoft.OpenApi;
 using MySecureBackend.WebApi.Repositories;
 using MySecureBackend.WebApi.Repositories.Interfaces;
 using MySecureBackend.WebApi.Services;
+using Npgsql;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +18,9 @@ var sqlConnectionStringFound = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
 //Test if database is connected
 //using var conn = new SqlConnection(sqlConnectionString);
-//conn.Open();
-//Console.WriteLine("✅ Database connected!");
+using var conn = new NpgsqlConnection(sqlConnectionString);
+conn.Open();
+Console.WriteLine("✅ Database connected!");
 
 // Register OpenAPI/Swagger for API documentation and testing.
 //builder.Services.AddEndpointsApiExplorer();
