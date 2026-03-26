@@ -92,6 +92,10 @@ else
     app.MapGet("/", () => currentHealthMessage);
 }
 
+// Test to make docker work
+var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
+app.Urls.Add($"http://*:{port}");
+
 // Enforce HTTPS for all requests.
 app.UseHttpsRedirection();
 
